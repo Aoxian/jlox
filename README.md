@@ -1,4 +1,6 @@
 # jlox
+[![Java CI with Maven](https://github.com/Aoxian/jlox/actions/workflows/maven.yml/badge.svg)](https://github.com/Aoxian/jlox/actions/workflows/maven.yml)
+
 An implementation of the Lox programing language, from the book [Crafting Interprets](https://craftinginterpreters.com) by Bob Nystrom.
 * This version of jlox is a tree-walk interpreter, written test first.
 
