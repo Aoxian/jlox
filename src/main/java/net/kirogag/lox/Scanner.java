@@ -9,7 +9,7 @@ public class Scanner {
 
   Scanner(String source) {
     this.source = source;
-    tokens.add(new Token(source));
+    tokens.add(new Token(TokenType.STRING, source, source, 1));
   }
 
   List<Token> scanTokens() {

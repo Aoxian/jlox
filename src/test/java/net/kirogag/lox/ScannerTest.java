@@ -11,6 +11,6 @@ public class ScannerTest {
     Scanner testScanner = new Scanner(loxStatement);
     Token firstToken = testScanner.scanTokens().get(0);
 
-    assertEquals(loxStatement, firstToken.toString());
+    assertEquals(loxStatement, firstToken.lexeme);
   }
 }
