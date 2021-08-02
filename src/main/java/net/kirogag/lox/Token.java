@@ -1,7 +1,6 @@
 package net.kirogag.lox;
 
 public class Token {
-
   final TokenType type;
   final String lexeme;
   final Object literal;
@@ -15,6 +14,6 @@ public class Token {
   }
 
   public String toString() {
-    return this.lexeme;
+    return String.format("%s %s %s", type, lexeme, (literal == null) ? "" : literal).trim();
   }
 }
