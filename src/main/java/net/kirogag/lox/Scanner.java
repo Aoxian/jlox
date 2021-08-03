@@ -6,9 +6,15 @@ import java.util.List;
 public class Scanner {
   private final String source;
   private final List<Token> tokens = new ArrayList<>();
+  private ErrorReporter errorReporter = (line, message) -> { };;
 
   Scanner(String source) {
     this.source = source;
+  }
+
+  Scanner(String source, ErrorReporter errorReporter) {
+    this.source = source;
+    this.errorReporter = errorReporter;
   }
 
   List<Token> scanTokens() {
@@ -30,7 +36,9 @@ public class Scanner {
       case ';': addToken(TokenType.SEMICOLON, c); break;
       case '/': addToken(TokenType.SLASH, c); break;
       case '*': addToken(TokenType.STAR, c); break;
-      default: addToken(TokenType.STRING, c); break;
+      default:
+        errorReporter.error(1, String.format("Unexpected character: \"%s\"", c));
+        break;
     }
   }
 
