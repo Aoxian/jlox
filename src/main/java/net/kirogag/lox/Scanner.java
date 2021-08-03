@@ -69,10 +69,28 @@ public class Scanner {
       case '\n':
         line++;
         break;
+      case '"': string(); break;
       default:
         errorReporter.error(line, String.format("Unexpected character: \"%s\"", c));
         break;
     }
+  }
+
+  private void string() {
+    while (peek() != '"' && !isAtEnd()) {
+      if (peek() == '\n') line++;
+      advance();
+    }
+
+    if (isAtEnd()) {
+      errorReporter.error(line, "Unterminated string.");
+      return;
+    }
+
+    advance();
+
+    String value = source.substring(start + 1, current - 1);
+    addToken(TokenType.STRING, value);
   }
 
   private boolean isAtEnd() {

@@ -1,6 +1,5 @@
 package net.kirogag.lox;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,12 +7,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScannerTest {
-  private Token scanFirstToken(String source) {
-    Scanner testScanner = new Scanner(source);
-    List<Token> tokens = testScanner.scanTokens();
-    return tokens.get(0);
-  }
-
   @Test
   public void scanLeftParenToken() {
     String leftParenToken = "(";
@@ -259,4 +252,46 @@ public class ScannerTest {
     assertEquals(TokenType.RIGHT_BRACE, secondToken.type);
     assertEquals(2, secondToken.line);
   }
+
+  @Test
+  public void scanStringLiterals() {
+    String loxCodeInAString = "\"This is a string with some lox code: var lox = 1;\"";
+    String expectedToken = TokenType.STRING + " " + loxCodeInAString + " " + stringAsLiteral(loxCodeInAString);
+
+    Token firstToken = scanFirstToken(loxCodeInAString);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanMultiLineStringLiterals() {
+    String loxCodeInAString = "\"This is a string with some\nNewLine\nCharacters\"";
+    String expectedToken = TokenType.STRING + " " + loxCodeInAString + " " + stringAsLiteral(loxCodeInAString);
+
+    Token firstToken = scanFirstToken(loxCodeInAString);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanStringLiteralsDoesSupportEscapeSequences() {
+    String loxCodeInAString = "\"This is a string with some\"\n\"\nCharacters\"";
+    String expectedString = "\"This is a string with some\"";
+    String expectedToken = TokenType.STRING + " " + expectedString + " " + stringAsLiteral(expectedString);
+
+    Token firstToken = scanFirstToken(loxCodeInAString);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  private Token scanFirstToken(String source) {
+    Scanner testScanner = new Scanner(source);
+    List<Token> tokens = testScanner.scanTokens();
+    return tokens.get(0);
+  }
+
+  private String stringAsLiteral(String string) {
+    return string.substring(1, string.length() - 1);
+  }
+
 }
