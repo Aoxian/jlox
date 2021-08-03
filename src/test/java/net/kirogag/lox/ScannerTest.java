@@ -1,5 +1,6 @@
 package net.kirogag.lox;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -201,5 +202,61 @@ public class ScannerTest {
     Token firstToken = scanFirstToken(greater);
 
     assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanIgnoreCommentsUntilTheEndOfALine() {
+    String loxCode = "{ // A comment a plus + token\n}";
+
+    Scanner testScanner = new Scanner(loxCode);
+    List<Token> tokens = testScanner.scanTokens();
+
+    assertEquals(TokenType.LEFT_BRACE, tokens.get(0).type);
+    assertEquals(TokenType.RIGHT_BRACE, tokens.get(1).type);
+    assertEquals(TokenType.EOF, tokens.get(2).type);
+
+  }
+
+  @Test
+  public void scanIgnoresSpace() {
+    String space = " ";
+    String expectedToken = TokenType.EOF.toString();
+
+    Token firstToken = scanFirstToken(space);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanIgnoresReturnToken() {
+    String returnToken = "\r";
+    String expectedToken = TokenType.EOF.toString();
+
+    Token firstToken = scanFirstToken(returnToken);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanIgnoresTabToken() {
+    String tabToken = "\t";
+    String expectedToken = TokenType.EOF.toString();
+
+    Token firstToken = scanFirstToken(tabToken);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanIgnoresNewLineTokenAndIncreasesLineCount() {
+    String loxCodeWithNewLine = "{\n}";
+
+    Scanner testScanner = new Scanner(loxCodeWithNewLine);
+    List<Token> tokens = testScanner.scanTokens();
+
+    Token secondToken = tokens.get(1);
+
+    assertEquals(TokenType.RIGHT_BRACE, secondToken.type);
+    assertEquals(2, secondToken.line);
   }
 }

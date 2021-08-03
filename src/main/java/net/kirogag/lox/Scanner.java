@@ -7,9 +7,9 @@ public class Scanner {
   private final String source;
   private final List<Token> tokens = new ArrayList<>();
   private ErrorReporter errorReporter = (line, message) -> { };
-  private final int start = 0;
+  private int start = 0;
   private int current = 0;
-  private final int line = 1;
+  private int line = 1;
 
   Scanner(String source) {
     this.source = source;
@@ -21,7 +21,12 @@ public class Scanner {
   }
 
   List<Token> scanTokens() {
-    scanToken(source);
+    while (!isAtEnd()) {
+      start = current;
+      scanToken(source);
+    }
+
+    tokens.add(new Token(TokenType.EOF, "", null, line));
     return tokens;
   }
 
@@ -37,7 +42,13 @@ public class Scanner {
       case '-': addToken(TokenType.MINUS); break;
       case '+': addToken(TokenType.PLUS); break;
       case ';': addToken(TokenType.SEMICOLON); break;
-      case '/': addToken(TokenType.SLASH); break;
+      case '/':
+        if (match('/')) {
+          while (peek() != '\n' && !isAtEnd()) advance();
+        } else {
+          addToken(TokenType.SLASH); break;
+        }
+        break;
       case '*':addToken(TokenType.STAR); break;
       case '!':
         addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
@@ -51,18 +62,17 @@ public class Scanner {
       case '>':
         addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
         break;
+      case ' ':
+      case '\r':
+      case '\t':
+        break;
+      case '\n':
+        line++;
+        break;
       default:
-        errorReporter.error(1, String.format("Unexpected character: \"%s\"", c));
+        errorReporter.error(line, String.format("Unexpected character: \"%s\"", c));
         break;
     }
-  }
-
-  private boolean match(char expected) {
-    if (isAtEnd()) return false;
-    if (source.charAt(current) != expected) return false;
-
-    current++;
-    return true;
   }
 
   private boolean isAtEnd() {
@@ -71,6 +81,18 @@ public class Scanner {
 
   private char advance() {
     return source.charAt(current++);
+  }
+
+  private char peek() {
+    if (isAtEnd()) return '\0';
+    return source.charAt(current);
+  }
+
+  private boolean match(char expected) {
+    if (peek() != expected) return false;
+
+    advance();
+    return true;
   }
 
   private void addToken(TokenType type) {
