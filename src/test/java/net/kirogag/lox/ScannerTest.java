@@ -122,4 +122,84 @@ public class ScannerTest {
 
     assertEquals(expectedToken, firstToken.toString());
   }
+
+  @Test
+  public void scanBangEqualToken() {
+    String bang_equal = "!=";
+    String expectedToken = TokenType.BANG_EQUAL + " " + bang_equal;
+
+    Token firstToken = scanFirstToken(bang_equal);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanBangToken() {
+    String bang = "!";
+    String expectedToken = TokenType.BANG + " " + bang;
+
+    Token firstToken = scanFirstToken(bang);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanEqualEqualToken() {
+    String equal_equal = "==";
+    String expectedToken = TokenType.EQUAL_EQUAL + " " + equal_equal;
+
+    Token firstToken = scanFirstToken(equal_equal);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanEqualToken() {
+    String equal = "=";
+    String expectedToken = TokenType.EQUAL + " " + equal;
+
+    Token firstToken = scanFirstToken(equal);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanLessEqualToken() {
+    String less_equal = "<=";
+    String expectedToken = TokenType.LESS_EQUAL + " " + less_equal;
+
+    Token firstToken = scanFirstToken(less_equal);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanLessToken() {
+    String less = "<";
+    String expectedToken = TokenType.LESS + " " + less;
+
+    Token firstToken = scanFirstToken(less);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanGreaterEqualToken() {
+    String greater_equal = ">=";
+    String expectedToken = TokenType.GREATER_EQUAL + " " + greater_equal;
+
+    Token firstToken = scanFirstToken(greater_equal);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
+
+  @Test
+  public void scanGreaterToken() {
+    String greater = ">";
+    String expectedToken = TokenType.GREATER + " " + greater;
+
+    Token firstToken = scanFirstToken(greater);
+
+    assertEquals(expectedToken, firstToken.toString());
+  }
 }

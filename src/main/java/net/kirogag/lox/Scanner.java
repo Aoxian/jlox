@@ -6,7 +6,10 @@ import java.util.List;
 public class Scanner {
   private final String source;
   private final List<Token> tokens = new ArrayList<>();
-  private ErrorReporter errorReporter = (line, message) -> { };;
+  private ErrorReporter errorReporter = (line, message) -> { };
+  private final int start = 0;
+  private int current = 0;
+  private final int line = 1;
 
   Scanner(String source) {
     this.source = source;
@@ -23,27 +26,59 @@ public class Scanner {
   }
 
   private void scanToken(String source) {
-    char c = source.charAt(0);
+    char c = advance();
     switch (c) {
-      case '(': addToken(TokenType.LEFT_PAREN, c); break;
-      case ')': addToken(TokenType.RIGHT_PAREN, c); break;
-      case '{': addToken(TokenType.LEFT_BRACE, c); break;
-      case '}': addToken(TokenType.RIGHT_BRACE, c); break;
-      case ',': addToken(TokenType.COMMA, c); break;
-      case '.': addToken(TokenType.DOT, c); break;
-      case '-': addToken(TokenType.MINUS, c); break;
-      case '+': addToken(TokenType.PLUS, c); break;
-      case ';': addToken(TokenType.SEMICOLON, c); break;
-      case '/': addToken(TokenType.SLASH, c); break;
-      case '*': addToken(TokenType.STAR, c); break;
+      case '(': addToken(TokenType.LEFT_PAREN); break;
+      case ')': addToken(TokenType.RIGHT_PAREN); break;
+      case '{': addToken(TokenType.LEFT_BRACE); break;
+      case '}': addToken(TokenType.RIGHT_BRACE); break;
+      case ',': addToken(TokenType.COMMA); break;
+      case '.': addToken(TokenType.DOT); break;
+      case '-': addToken(TokenType.MINUS); break;
+      case '+': addToken(TokenType.PLUS); break;
+      case ';': addToken(TokenType.SEMICOLON); break;
+      case '/': addToken(TokenType.SLASH); break;
+      case '*':addToken(TokenType.STAR); break;
+      case '!':
+        addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
+        break;
+      case '=':
+        addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
+        break;
+      case '<':
+        addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
+        break;
+      case '>':
+        addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+        break;
       default:
         errorReporter.error(1, String.format("Unexpected character: \"%s\"", c));
         break;
     }
   }
 
-  private void addToken(TokenType type, char c) {
-    String text = Character.toString(c);
-    tokens.add(new Token(type, text, null, 1));
+  private boolean match(char expected) {
+    if (isAtEnd()) return false;
+    if (source.charAt(current) != expected) return false;
+
+    current++;
+    return true;
+  }
+
+  private boolean isAtEnd() {
+    return current >= source.length();
+  }
+
+  private char advance() {
+    return source.charAt(current++);
+  }
+
+  private void addToken(TokenType type) {
+    addToken(type, null);
+  }
+
+  private void addToken(TokenType type, Object literal) {
+    String text = source.substring(start, current);
+    tokens.add(new Token(type, text, literal, line));
   }
 }
