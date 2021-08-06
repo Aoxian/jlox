@@ -284,6 +284,56 @@ public class ScannerTest {
     assertEquals(expectedToken, firstToken.toString());
   }
 
+  @Test
+  public void scanNumberLiteral() {
+    String loxCode = "12345";
+    String expectedFirstToken = new Token(TokenType.NUMBER, "12345", (double) 12345, 1).toString();
+
+    String actualFirstToken = scanFirstToken(loxCode).toString();
+
+    assertEquals(expectedFirstToken, actualFirstToken);
+  }
+
+  @Test
+  public void scanNumberCanIncludeFractional() {
+    String loxCode = "123.45";
+    String expectedFirstToken = new Token(TokenType.NUMBER, "123.45", 123.45, 1).toString();
+
+    String actualFirstToken = scanFirstToken(loxCode).toString();
+
+    assertEquals(expectedFirstToken, actualFirstToken);
+  }
+
+  @Test
+  public void scanNumberLiteralDoesNotBeginWithADecimal() {
+    String loxCode = ".12345";
+    String expectedFirstToken = new Token(TokenType.DOT, ".", null, 1).toString();
+    String expectedSecondToken = new Token(TokenType.NUMBER, "12345", (double) 12345, 1).toString();
+
+    Scanner testScanner = new Scanner(loxCode);
+    List<Token> tokens = testScanner.scanTokens();
+    String actualFirstToken = tokens.get(0).toString();
+    String actualSecondToken = tokens.get(1).toString();
+
+    assertEquals(expectedFirstToken, actualFirstToken);
+    assertEquals(expectedSecondToken, actualSecondToken);
+  }
+
+  @Test
+  public void scanNumberLiteralDoesNotEndWithADecimal() {
+    String loxCode = "12345.";
+    String expectedFirstToken = new Token(TokenType.NUMBER, "12345", (double) 12345, 1).toString();
+    String expectedSecondToken = new Token(TokenType.DOT, ".", null, 1).toString();
+
+    Scanner testScanner = new Scanner(loxCode);
+    List<Token> tokens = testScanner.scanTokens();
+    String actualFirstToken = tokens.get(0).toString();
+    String actualSecondToken = tokens.get(1).toString();
+
+    assertEquals(expectedFirstToken, actualFirstToken);
+    assertEquals(expectedSecondToken, actualSecondToken);
+  }
+
   private Token scanFirstToken(String source) {
     Scanner testScanner = new Scanner(source);
     List<Token> tokens = testScanner.scanTokens();

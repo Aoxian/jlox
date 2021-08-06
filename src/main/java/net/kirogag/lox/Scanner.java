@@ -71,7 +71,11 @@ public class Scanner {
         break;
       case '"': string(); break;
       default:
-        errorReporter.error(line, String.format("Unexpected character: \"%s\"", c));
+        if (isDigit(c)) {
+          number();
+        } else {
+          errorReporter.error(line, String.format("Unexpected character: \"%s\"", c));
+        }
         break;
     }
   }
@@ -93,6 +97,19 @@ public class Scanner {
     addToken(TokenType.STRING, value);
   }
 
+  private void number() {
+    while (isDigit(peek())) advance();
+
+    // Looking for fractional part
+    if (peek() == '.' && isDigit(peekNext())) {
+      advance();
+
+      while (isDigit(peek())) advance();
+    }
+
+    addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
+  }
+
   private boolean isAtEnd() {
     return current >= source.length();
   }
@@ -104,6 +121,15 @@ public class Scanner {
   private char peek() {
     if (isAtEnd()) return '\0';
     return source.charAt(current);
+  }
+
+  private char peekNext() {
+    if (current + 1 >= source.length()) return '\0';
+    return source.charAt(current + 1);
+  }
+
+  private boolean isDigit(char c) {
+    return c >= '0' && c <= '9';
   }
 
   private boolean match(char expected) {
