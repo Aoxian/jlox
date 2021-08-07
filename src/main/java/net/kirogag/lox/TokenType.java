@@ -12,7 +12,7 @@ public enum TokenType {
   GREATER, GREATER_EQUAL,
 
   // Literals.
-  STRING, NUMBER,
+  IDENTIFIER, NUMBER, STRING,
 
   EOF
 }

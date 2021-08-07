@@ -215,10 +215,14 @@ public class ScannerTest {
   }
 
   @Test
-  public void scanStringLiteralsDoesSupportEscapeSequences() {
-    String loxCode = "\"\'escape\tchars\'\"";
+  public void scanStringLiteralsDoesNotSupportEscapeSequences() {
+    String loxCode = "\"string with a \"quote\"\"";
 
-    assertTokenEquals(loxToken(TokenType.STRING, "\"\'escape\tchars\'\"", (String) "\'escape\tchars\'", 1), scanToken(loxCode));
+    Scanner testScanner = new Scanner(loxCode);
+    List<Token> tokens = testScanner.scanTokens();
+
+    assertTokenEquals(loxToken(TokenType.STRING, "\"string with a \"", (String) "string with a ", 1), tokens.get(0));
+    assertTokenEquals(loxToken(TokenType.IDENTIFIER, "quote", null, 1), tokens.get(1));
   }
 
   @Test
@@ -255,5 +259,12 @@ public class ScannerTest {
 
     assertTokenEquals(loxToken(TokenType.NUMBER, "12345", (double) 12345, 1), tokens.get(0));
     assertTokenEquals(loxToken(TokenType.DOT, "."), tokens.get(1));
+  }
+
+  @Test
+  public void scanIdentifierLiterals() {
+    String loxCode = "foo";
+
+    assertTokenEquals(loxToken(TokenType.IDENTIFIER, "foo"), scanToken(loxCode));
   }
 }

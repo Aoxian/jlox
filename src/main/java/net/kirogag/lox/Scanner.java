@@ -73,11 +73,32 @@ public class Scanner {
       default:
         if (isDigit(c)) {
           number();
+        } else if (isAlpha(c)) {
+          identifier();
         } else {
           errorReporter.error(line, String.format("Unexpected character: \"%s\"", c));
         }
         break;
     }
+  }
+
+  private void identifier() {
+    while(isAlphaNumeric(peek())) advance();
+
+    addToken(TokenType.IDENTIFIER);
+  }
+
+  private void number() {
+    while (isDigit(peek())) advance();
+
+    // Looking for fractional part
+    if (peek() == '.' && isDigit(peekNext())) {
+      advance();
+
+      while (isDigit(peek())) advance();
+    }
+
+    addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
   }
 
   private void string() {
@@ -97,19 +118,6 @@ public class Scanner {
     addToken(TokenType.STRING, value);
   }
 
-  private void number() {
-    while (isDigit(peek())) advance();
-
-    // Looking for fractional part
-    if (peek() == '.' && isDigit(peekNext())) {
-      advance();
-
-      while (isDigit(peek())) advance();
-    }
-
-    addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
-  }
-
   private boolean isAtEnd() {
     return current >= source.length();
   }
@@ -126,6 +134,14 @@ public class Scanner {
   private char peekNext() {
     if (current + 1 >= source.length()) return '\0';
     return source.charAt(current + 1);
+  }
+
+  private boolean isAlpha(char c) {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_');
+  }
+
+  private boolean isAlphaNumeric(char c) {
+    return isAlpha(c) || isDigit(c);
   }
 
   private boolean isDigit(char c) {
