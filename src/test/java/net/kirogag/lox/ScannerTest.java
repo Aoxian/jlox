@@ -1,200 +1,159 @@
 package net.kirogag.lox;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScannerTest {
+  private void assertTokenEquals(Token token1, Token token2) {
+    assertEquals(token1.toString(), token2.toString());
+  }
+
+  private Token loxToken(TokenType type, String lexeme){
+    return new Token(type, lexeme, null, 1);
+  }
+
+  private Token loxToken(TokenType type, String lexeme, Object literal, int line){
+    return new Token(type, lexeme, literal, line);
+  }
+
+  private Token scanToken(String source) {
+    Scanner testScanner = new Scanner(source);
+    List<Token> tokens = testScanner.scanTokens();
+    return tokens.get(0);
+  }
+
   @Test
   public void scanLeftParenToken() {
-    String leftParenToken = "(";
-    String expectedToken = TokenType.LEFT_PAREN + " " + leftParenToken;
+    String loxCode = "(";
 
-    Token firstToken = scanFirstToken(leftParenToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.LEFT_PAREN, "("), scanToken(loxCode));
   }
 
   @Test
   public void scanRightParenToken() {
-    String rightParenToken = ")";
-    String expectedToken = TokenType.RIGHT_PAREN + " " + rightParenToken;
+    String loxCode = ")";
 
-    Token firstToken = scanFirstToken(rightParenToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.RIGHT_PAREN, ")"), scanToken(loxCode));
   }
 
   @Test
   public void scanLeftBraceToken() {
-    String leftBraceToken = "{";
-    String expectedToken = TokenType.LEFT_BRACE + " " + leftBraceToken;
+    String loxCode = "{";
 
-    Token firstToken = scanFirstToken(leftBraceToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.LEFT_BRACE, "{"), scanToken(loxCode));
   }
 
   @Test
   public void scanRightBraceToken() {
-    String rightBraceToken = "}";
-    String expectedToken = TokenType.RIGHT_BRACE + " " + rightBraceToken;
+    String loxCode = "}";
 
-    Token firstToken = scanFirstToken(rightBraceToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.RIGHT_BRACE, "}"), scanToken(loxCode));
   }
 
   @Test
   public void scanCommaToken() {
-    String comma = ",";
-    String expectedToken = TokenType.COMMA + " " + comma;
+    String loxCode = ",";
 
-    Token firstToken = scanFirstToken(comma);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.COMMA, ","), scanToken(loxCode));
   }
 
   @Test
   public void scanDotToken() {
-    String dot = ".";
-    String expectedToken = TokenType.DOT + " " + dot;
+    String loxCode = ".";
 
-    Token firstToken = scanFirstToken(dot);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.DOT, "."), scanToken(loxCode));
   }
 
   @Test
   public void scanMinusToken() {
-    String minus = "-";
-    String expectedToken = TokenType.MINUS + " " + minus;
+    String loxCode = "-";
 
-    Token firstToken = scanFirstToken(minus);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.MINUS, "-"), scanToken(loxCode));
   }
 
   @Test
   public void scanPlusToken() {
-    String plusToken = "+";
-    String expectedToken = TokenType.PLUS + " " + plusToken;
+    String loxCode = "+";
 
-    Token firstToken = scanFirstToken(plusToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.PLUS , "+"), scanToken(loxCode));
   }
 
   @Test
   public void scanSemicolonToken() {
-    String semicolon = ";";
-    String expectedToken = TokenType.SEMICOLON + " " + semicolon;
+    String loxCode = ";";
 
-    Token firstToken = scanFirstToken(semicolon);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.SEMICOLON, ";"), scanToken(loxCode));
   }
 
   @Test
   public void scanSlashToken() {
-    String slash = "/";
-    String expectedToken = TokenType.SLASH + " " + slash;
+    String loxCode = "/";
 
-    Token firstToken = scanFirstToken(slash);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.SLASH, "/"), scanToken(loxCode));
   }
 
   @Test
   public void scanStarToken() {
-    String star = "*";
-    String expectedToken = TokenType.STAR + " " + star;
+    String loxCode = "*";
 
-    Token firstToken = scanFirstToken(star);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.STAR, "*"), scanToken(loxCode));
   }
 
   @Test
   public void scanBangEqualToken() {
-    String bang_equal = "!=";
-    String expectedToken = TokenType.BANG_EQUAL + " " + bang_equal;
+    String loxCode = "!=";
 
-    Token firstToken = scanFirstToken(bang_equal);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.BANG_EQUAL, "!="), scanToken(loxCode));
   }
 
   @Test
   public void scanBangToken() {
-    String bang = "!";
-    String expectedToken = TokenType.BANG + " " + bang;
+    String loxCode = "!";
 
-    Token firstToken = scanFirstToken(bang);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.BANG, "!"), scanToken(loxCode));
   }
 
   @Test
   public void scanEqualEqualToken() {
-    String equal_equal = "==";
-    String expectedToken = TokenType.EQUAL_EQUAL + " " + equal_equal;
+    String loxCode = "==";
 
-    Token firstToken = scanFirstToken(equal_equal);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.EQUAL_EQUAL, "=="), scanToken(loxCode));
   }
 
   @Test
   public void scanEqualToken() {
-    String equal = "=";
-    String expectedToken = TokenType.EQUAL + " " + equal;
+    String loxCode = "=";
 
-    Token firstToken = scanFirstToken(equal);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.EQUAL, "="), scanToken(loxCode));
   }
 
   @Test
   public void scanLessEqualToken() {
-    String less_equal = "<=";
-    String expectedToken = TokenType.LESS_EQUAL + " " + less_equal;
+    String loxCode = "<=";
 
-    Token firstToken = scanFirstToken(less_equal);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.LESS_EQUAL, "<="), scanToken(loxCode));
   }
 
   @Test
   public void scanLessToken() {
-    String less = "<";
-    String expectedToken = TokenType.LESS + " " + less;
+    String loxCode = "<";
 
-    Token firstToken = scanFirstToken(less);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.LESS, "<"), scanToken(loxCode));
   }
 
   @Test
   public void scanGreaterEqualToken() {
-    String greater_equal = ">=";
-    String expectedToken = TokenType.GREATER_EQUAL + " " + greater_equal;
+    String loxCode = ">=";
 
-    Token firstToken = scanFirstToken(greater_equal);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.GREATER_EQUAL, ">="), scanToken(loxCode));
   }
 
   @Test
   public void scanGreaterToken() {
-    String greater = ">";
-    String expectedToken = TokenType.GREATER + " " + greater;
+    String loxCode = ">";
 
-    Token firstToken = scanFirstToken(greater);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.GREATER, ">"), scanToken(loxCode));
   }
 
   @Test
@@ -204,144 +163,97 @@ public class ScannerTest {
     Scanner testScanner = new Scanner(loxCode);
     List<Token> tokens = testScanner.scanTokens();
 
-    assertEquals(TokenType.LEFT_BRACE, tokens.get(0).type);
-    assertEquals(TokenType.RIGHT_BRACE, tokens.get(1).type);
-    assertEquals(TokenType.EOF, tokens.get(2).type);
-
+    assertTokenEquals(loxToken(TokenType.LEFT_BRACE, "{"), tokens.get(0));
+    assertTokenEquals(loxToken(TokenType.RIGHT_BRACE, "}"), tokens.get(1));
+    assertTokenEquals(loxToken(TokenType.EOF, ""), tokens.get(2));
   }
 
   @Test
   public void scanIgnoresSpace() {
-    String space = " ";
-    String expectedToken = TokenType.EOF.toString();
+    String loxCode = " ";
 
-    Token firstToken = scanFirstToken(space);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.EOF, ""), scanToken(loxCode));
   }
 
   @Test
   public void scanIgnoresReturnToken() {
-    String returnToken = "\r";
-    String expectedToken = TokenType.EOF.toString();
+    String loxCode = "\r";
 
-    Token firstToken = scanFirstToken(returnToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.EOF, ""), scanToken(loxCode));
   }
 
   @Test
   public void scanIgnoresTabToken() {
-    String tabToken = "\t";
-    String expectedToken = TokenType.EOF.toString();
+    String loxCode = "\t";
 
-    Token firstToken = scanFirstToken(tabToken);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.EOF, ""), scanToken(loxCode));
   }
 
   @Test
   public void scanIgnoresNewLineTokenAndIncreasesLineCount() {
-    String loxCodeWithNewLine = "{\n}";
+    String loxCode = "{\n}";
 
-    Scanner testScanner = new Scanner(loxCodeWithNewLine);
+    Scanner testScanner = new Scanner(loxCode);
     List<Token> tokens = testScanner.scanTokens();
-
     Token secondToken = tokens.get(1);
 
-    assertEquals(TokenType.RIGHT_BRACE, secondToken.type);
     assertEquals(2, secondToken.line);
   }
 
   @Test
   public void scanStringLiterals() {
-    String loxCodeInAString = "\"This is a string with some lox code: var lox = 1;\"";
-    String expectedToken = TokenType.STRING + " " + loxCodeInAString + " " + stringAsLiteral(loxCodeInAString);
+    String loxCode = "\"A string\"";
 
-    Token firstToken = scanFirstToken(loxCodeInAString);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.STRING, "\"A string\"", (String) "A string", 1), scanToken(loxCode));
   }
 
   @Test
   public void scanMultiLineStringLiterals() {
-    String loxCodeInAString = "\"This is a string with some\nNewLine\nCharacters\"";
-    String expectedToken = TokenType.STRING + " " + loxCodeInAString + " " + stringAsLiteral(loxCodeInAString);
+    String loxCode = "\"A\nString\"";
 
-    Token firstToken = scanFirstToken(loxCodeInAString);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.STRING, "\"A\nString\"", (String) "A\nString", 1), scanToken(loxCode));
   }
 
   @Test
   public void scanStringLiteralsDoesSupportEscapeSequences() {
-    String loxCodeInAString = "\"This is a string with some\"\n\"\nCharacters\"";
-    String expectedString = "\"This is a string with some\"";
-    String expectedToken = TokenType.STRING + " " + expectedString + " " + stringAsLiteral(expectedString);
+    String loxCode = "\"\'escape\tchars\'\"";
 
-    Token firstToken = scanFirstToken(loxCodeInAString);
-
-    assertEquals(expectedToken, firstToken.toString());
+    assertTokenEquals(loxToken(TokenType.STRING, "\"\'escape\tchars\'\"", (String) "\'escape\tchars\'", 1), scanToken(loxCode));
   }
 
   @Test
   public void scanNumberLiteral() {
     String loxCode = "12345";
-    String expectedFirstToken = new Token(TokenType.NUMBER, "12345", (double) 12345, 1).toString();
 
-    String actualFirstToken = scanFirstToken(loxCode).toString();
-
-    assertEquals(expectedFirstToken, actualFirstToken);
+    assertTokenEquals(loxToken(TokenType.NUMBER, "12345", (double) 12345, 1), scanToken(loxCode));
   }
 
   @Test
   public void scanNumberCanIncludeFractional() {
     String loxCode = "123.45";
-    String expectedFirstToken = new Token(TokenType.NUMBER, "123.45", 123.45, 1).toString();
 
-    String actualFirstToken = scanFirstToken(loxCode).toString();
-
-    assertEquals(expectedFirstToken, actualFirstToken);
+    assertTokenEquals(loxToken(TokenType.NUMBER, "123.45", (double) 123.45, 1), scanToken(loxCode));
   }
 
   @Test
   public void scanNumberLiteralDoesNotBeginWithADecimal() {
     String loxCode = ".12345";
-    String expectedFirstToken = new Token(TokenType.DOT, ".", null, 1).toString();
-    String expectedSecondToken = new Token(TokenType.NUMBER, "12345", (double) 12345, 1).toString();
 
     Scanner testScanner = new Scanner(loxCode);
     List<Token> tokens = testScanner.scanTokens();
-    String actualFirstToken = tokens.get(0).toString();
-    String actualSecondToken = tokens.get(1).toString();
 
-    assertEquals(expectedFirstToken, actualFirstToken);
-    assertEquals(expectedSecondToken, actualSecondToken);
+    assertTokenEquals(loxToken(TokenType.DOT, "."), tokens.get(0));
+    assertTokenEquals(loxToken(TokenType.NUMBER, "12345", (double) 12345, 1), tokens.get(1));
   }
 
   @Test
   public void scanNumberLiteralDoesNotEndWithADecimal() {
     String loxCode = "12345.";
-    String expectedFirstToken = new Token(TokenType.NUMBER, "12345", (double) 12345, 1).toString();
-    String expectedSecondToken = new Token(TokenType.DOT, ".", null, 1).toString();
 
     Scanner testScanner = new Scanner(loxCode);
     List<Token> tokens = testScanner.scanTokens();
-    String actualFirstToken = tokens.get(0).toString();
-    String actualSecondToken = tokens.get(1).toString();
 
-    assertEquals(expectedFirstToken, actualFirstToken);
-    assertEquals(expectedSecondToken, actualSecondToken);
+    assertTokenEquals(loxToken(TokenType.NUMBER, "12345", (double) 12345, 1), tokens.get(0));
+    assertTokenEquals(loxToken(TokenType.DOT, "."), tokens.get(1));
   }
-
-  private Token scanFirstToken(String source) {
-    Scanner testScanner = new Scanner(source);
-    List<Token> tokens = testScanner.scanTokens();
-    return tokens.get(0);
-  }
-
-  private String stringAsLiteral(String string) {
-    return string.substring(1, string.length() - 1);
-  }
-
 }
