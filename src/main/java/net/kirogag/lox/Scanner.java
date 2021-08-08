@@ -1,18 +1,44 @@
 package net.kirogag.lox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Scanner {
+  private static final Map<String, TokenType> keywords;
+  static {
+    keywords = new HashMap<>();
+    keywords.put("and", TokenType.AND);
+    keywords.put("class", TokenType.CLASS);
+    keywords.put("else", TokenType.ELSE);
+    keywords.put("false", TokenType.FALSE);
+    keywords.put("fun", TokenType.FUN);
+    keywords.put("for", TokenType.FOR);
+    keywords.put("if", TokenType.IF);
+    keywords.put("nil", TokenType.NIL);
+    keywords.put("or", TokenType.OR);
+    keywords.put("print", TokenType.PRINT);
+    keywords.put("return", TokenType.RETURN);
+    keywords.put("super", TokenType.SUPER);
+    keywords.put("this", TokenType.THIS);
+    keywords.put("true", TokenType.TRUE);
+    keywords.put("var", TokenType.VAR);
+    keywords.put("while", TokenType.WHILE);
+  }
+
   private final String source;
   private final List<Token> tokens = new ArrayList<>();
-  private ErrorReporter errorReporter = (line, message) -> { };
+  private final ErrorReporter errorReporter;
+
   private int start = 0;
   private int current = 0;
   private int line = 1;
 
+
   Scanner(String source) {
     this.source = source;
+    this.errorReporter = (line, message) -> { };
   }
 
   Scanner(String source, ErrorReporter errorReporter) {
@@ -74,7 +100,7 @@ public class Scanner {
         if (isDigit(c)) {
           number();
         } else if (isAlpha(c)) {
-          identifier();
+          alphaNumeric();
         } else {
           errorReporter.error(line, String.format("Unexpected character: \"%s\"", c));
         }
@@ -82,10 +108,13 @@ public class Scanner {
     }
   }
 
-  private void identifier() {
+  private void alphaNumeric() {
     while(isAlphaNumeric(peek())) advance();
 
-    addToken(TokenType.IDENTIFIER);
+    String text = source.substring(start, current);
+    TokenType tokenType = keywords.get(text);
+    if (tokenType == null) tokenType = TokenType.IDENTIFIER;
+    addToken(tokenType);
   }
 
   private void number() {
@@ -118,12 +147,11 @@ public class Scanner {
     addToken(TokenType.STRING, value);
   }
 
-  private boolean isAtEnd() {
-    return current >= source.length();
-  }
+  private boolean match(char expected) {
+    if (peek() != expected) return false;
 
-  private char advance() {
-    return source.charAt(current++);
+    advance();
+    return true;
   }
 
   private char peek() {
@@ -148,11 +176,12 @@ public class Scanner {
     return c >= '0' && c <= '9';
   }
 
-  private boolean match(char expected) {
-    if (peek() != expected) return false;
+  private boolean isAtEnd() {
+    return current >= source.length();
+  }
 
-    advance();
-    return true;
+  private char advance() {
+    return source.charAt(current++);
   }
 
   private void addToken(TokenType type) {

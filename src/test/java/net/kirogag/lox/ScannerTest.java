@@ -267,4 +267,116 @@ public class ScannerTest {
 
     assertTokenEquals(loxToken(TokenType.IDENTIFIER, "foo"), scanToken(loxCode));
   }
+
+  @Test
+  public void scanAndKeyword() {
+    String loxCode = "and";
+
+    assertTokenEquals(loxToken(TokenType.AND, "and"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanClassKeyword() {
+    String loxCode = "class";
+
+    assertTokenEquals(loxToken(TokenType.CLASS, "class"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanElseKeyword() {
+    String loxCode = "else";
+
+    assertTokenEquals(loxToken(TokenType.ELSE, "else"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanFalseKeyword() {
+    String loxCode = "false";
+
+    assertTokenEquals(loxToken(TokenType.FALSE, "false"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanForKeyword() {
+    String loxCode = "for";
+
+    assertTokenEquals(loxToken(TokenType.FOR, "for"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanFunKeyword() {
+    String loxCode = "fun";
+
+    assertTokenEquals(loxToken(TokenType.FUN, "fun"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanIfKeyword() {
+    String loxCode = "if";
+
+    assertTokenEquals(loxToken(TokenType.IF, "if"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanNilKeyword() {
+    String loxCode = "nil";
+
+    assertTokenEquals(loxToken(TokenType.NIL, "nil"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanOrKeyword() {
+    String loxCode = "or";
+
+    assertTokenEquals(loxToken(TokenType.OR, "or"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanPrintKeyword() {
+    String loxCode = "print";
+
+    assertTokenEquals(loxToken(TokenType.PRINT, "print"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanReturnKeyword() {
+    String loxCode = "return";
+
+    assertTokenEquals(loxToken(TokenType.RETURN, "return"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanSuperKeyword() {
+    String loxCode = "super";
+
+    assertTokenEquals(loxToken(TokenType.SUPER, "super"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanThisKeyword() {
+    String loxCode = "this";
+
+    assertTokenEquals(loxToken(TokenType.THIS, "this"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanTrueKeyword() {
+    String loxCode = "true";
+
+    assertTokenEquals(loxToken(TokenType.TRUE, "true"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanVarKeyword() {
+    String loxCode = "var";
+
+    assertTokenEquals(loxToken(TokenType.VAR, "var"), scanToken(loxCode));
+  }
+
+  @Test
+  public void scanWhileKeyword() {
+    String loxCode = "while";
+
+    assertTokenEquals(loxToken(TokenType.WHILE, "while"), scanToken(loxCode));
+  }
 }
