@@ -3,6 +3,12 @@ package net.kirogag.lox;
 import java.util.List;
 
 abstract class Expression {
+  interface Visitor<R> {
+    R visitBinaryExpression(Binary expression);
+    R visitGroupingExpression(Grouping expression);
+    R visitLiteralExpression(Literal expression);
+    R visitUnaryExpression(Unary expression);
+  }
 
   static class Binary extends Expression {
     final Expression left;
@@ -14,6 +20,11 @@ abstract class Expression {
       this.operator = operator;
       this.right = right;
     }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitBinaryExpression(this);
+    }
   }
 
   static class Grouping extends Expression {
@@ -22,6 +33,11 @@ abstract class Expression {
     Grouping(Expression expression) {
       this.expression = expression;
     }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitGroupingExpression(this);
+    }
   }
 
   static class Literal extends Expression {
@@ -29,6 +45,11 @@ abstract class Expression {
 
     Literal(Object value) {
       this.value = value;
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitLiteralExpression(this);
     }
   }
 
@@ -40,5 +61,12 @@ abstract class Expression {
       this.operator = operator;
       this.right = right;
     }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitUnaryExpression(this);
+    }
   }
+
+  abstract <R> R accept(Visitor<R> visitor);
 }
