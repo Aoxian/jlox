@@ -11,3 +11,9 @@ An implementation of the Lox programing language, from the book [Crafting Interp
 ## Run
 - With no argument, the program will act as a Lox REPL.
 - With one argument, a path to a file, the program will interpret the file.
+
+## Development
+### Tools
+#### GenerateAST
+- A script, that can be extended, to build the abstract syntax tree.
+- Usage: `generate_ast <output_directory>`
