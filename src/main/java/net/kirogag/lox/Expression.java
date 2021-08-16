@@ -1,7 +1,5 @@
 package net.kirogag.lox;
 
-import java.util.List;
-
 abstract class Expression {
   interface Visitor<R> {
     R visitBinaryExpression(Binary expression);

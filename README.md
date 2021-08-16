@@ -17,3 +17,7 @@ An implementation of the Lox programing language, from the book [Crafting Interp
 #### GenerateAST
 - A script, that can be extended, to build the abstract syntax tree.
 - Usage: `generate_ast <output_directory>`
+- Generates:
+  ```shell
+  lox/Expression.java
+  ```
