@@ -1,7 +1,9 @@
 package net.kirogag.lox;
 
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScannerTest {
@@ -9,11 +11,11 @@ public class ScannerTest {
     assertEquals(token1.toString(), token2.toString());
   }
 
-  private Token loxToken(TokenType type, String lexeme){
+  private Token loxToken(TokenType type, String lexeme) {
     return new Token(type, lexeme, null, 1);
   }
 
-  private Token loxToken(TokenType type, String lexeme, Object literal, int line){
+  private Token loxToken(TokenType type, String lexeme, Object literal, int line) {
     return new Token(type, lexeme, literal, line);
   }
 
@@ -76,7 +78,7 @@ public class ScannerTest {
   public void scanPlusToken() {
     String loxCode = "+";
 
-    assertTokenEquals(loxToken(TokenType.PLUS , "+"), scanToken(loxCode));
+    assertTokenEquals(loxToken(TokenType.PLUS, "+"), scanToken(loxCode));
   }
 
   @Test

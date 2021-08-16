@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Scanner {
   private static final Map<String, TokenType> keywords;
+
   static {
     keywords = new HashMap<>();
     keywords.put("and", TokenType.AND);
@@ -109,7 +110,7 @@ public class Scanner {
   }
 
   private void alphaNumeric() {
-    while(isAlphaNumeric(peek())) advance();
+    while (isAlphaNumeric(peek())) advance();
 
     String text = source.substring(start, current);
     TokenType tokenType = keywords.get(text);
